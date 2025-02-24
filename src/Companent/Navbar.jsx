@@ -22,7 +22,7 @@ function Navbar({setCollapsed,collapsed}) {
         </Button>
         <p>Logo</p>
       </div>
-     <div className="flex items-center">
+     <div className="flex items-center gap-2">
      <p>{login.user.username}</p>
      <Button 
      onClick={()=>{
