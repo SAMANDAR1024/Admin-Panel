@@ -20,11 +20,11 @@ function LoginPage() {
                 console.log(res.data);
 
                 useAuthStore.setState({
-                    token:res.data.token,
-                    user:res.data.user,
-                })
+                  token: res.data.token,
+                  user: res.data.user,
+                });
                 setLoading(false);
-                message.success("Muvaffaqqiyatli Bajarildi...")
+                message.success("Muvaffaqqiyatli Bajarildi...");
               })
               .catch((e) => {
                 console.error(e);
@@ -59,9 +59,8 @@ function LoginPage() {
               prefix={<LockOutlined />}
             />
           </Form.Item>
-          <Button  htmlType="submit" type="primary" size="large" block>
-
-            {loading && <LoadingOutlined/>}
+          <Button htmlType="submit" type="primary" size="large" block>
+            {loading && <LoadingOutlined />}
             Kirish
           </Button>
         </Form>

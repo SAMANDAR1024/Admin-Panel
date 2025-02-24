@@ -22,7 +22,16 @@ function Navbar({setCollapsed,collapsed}) {
         </Button>
         <p>Logo</p>
       </div>
-      <p>{login.user.username}</p>
+     <div className="flex items-center">
+     <p>{login.user.username}</p>
+     <Button 
+     onClick={()=>{
+      useAuthStore.setState({
+        token: ""
+      })
+     }}
+     >Back</Button>
+     </div>
     </nav>
   );
 }
