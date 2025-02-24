@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { message, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -16,36 +17,45 @@ function ProductsPage() {
         message.error("Xatolik");
       });
   }, []);
+
+  if (!products) {
+    return (
+      <div className=" absolute left-[50%] top-[50%]  inset-0">
+        <div className="w-16 h-16 border-4 border-t-transparent border-gray-900 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   return (
     <div className="p-5 ">
       <h1 className="text-2xl font-bold mb-2 ">Product Page</h1>
 
       <div className="h-145 overflow-auto">
-      <Table
-      style={{width:"82vw", textAlign:"center", margin:"auto"} }
-        bordered
-        columns={[
-          {
-            title: "ID",
-            dataIndex: "id",
-          },
-          {
-            title: "Nomi",
-            dataIndex: "name",
-          },
-          {
-            title: "Data",
-            dataIndex: "createdAt",
-          },{
-            title: "Image",
-            dataIndex: "image",
-           render: (image)=>{
-            return <img className="h-10" src={image}></img>
-           }
-          },
-        ]}
-        dataSource={products}
-      />
+        <Table
+          style={{ width: "82vw", textAlign: "center", margin: "auto" }}
+          bordered
+          columns={[
+            {
+              title: "ID",
+              dataIndex: "id",
+            },
+            {
+              title: "Nomi",
+              dataIndex: "name",
+            },
+            {
+              title: "Data",
+              dataIndex: "createdAt",
+            },
+            {
+              title: "Image",
+              dataIndex: "image",
+              render: (image) => {
+                return <img className="h-10" src={image}></img>;
+              },
+            },
+          ]}
+          dataSource={products}
+        />
       </div>
     </div>
   );

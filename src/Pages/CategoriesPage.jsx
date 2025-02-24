@@ -16,6 +16,14 @@ function CategoriesPage() {
         message.error("Xatolik");
       });
   }, []);
+
+  if (!categories) {
+    return (
+      <div className=" absolute left-[50%] top-[50%]  inset-0">
+        <div className="w-16 h-16 border-4 border-t-transparent border-gray-900 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   return (
     <div className="p-5 ">
       <h1 className="text-2xl font-bold mb-2 ">Categories Page</h1>
