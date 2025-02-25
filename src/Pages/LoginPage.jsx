@@ -24,11 +24,13 @@ function LoginPage() {
                   user: res.data.user,
                 });
                 setLoading(false);
+                localStorage.setItem("auth", JSON.stringify(res.data))
                 message.success("Muvaffaqqiyatli Bajarildi...");
               })
               .catch((e) => {
                 console.error(e);
                 setLoading(false);
+             
                 message.error("Xatolik");
               });
           }}
