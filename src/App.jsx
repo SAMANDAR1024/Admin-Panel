@@ -7,10 +7,10 @@ import useAuthStore from "./store/my-store";
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
- const authState = useAuthStore()
+  const authState = useAuthStore();
 
   return (
-    <div className="">
+    <div className="h-[100vh] overflow-y-hidden">
       {authState.token ? (
         <>
           <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />

@@ -29,9 +29,9 @@ function ProductsPage() {
     <div className="p-5 w-full">
       <h1 className="text-2xl font-bold mb-2 ">Product Page</h1>
 
-      <div className="h-full w-full overflow-auto">
+      <div className="h-[75vh] w-full overflow-auto">
         <Table
-          style={{ width:"100%" , textAlign: "center", margin: "auto" }}
+          style={{ width:"100%" ,height:"75vh", textAlign: "center", margin: "auto" }}
           bordered
           columns={[
             {
