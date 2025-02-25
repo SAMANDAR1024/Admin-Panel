@@ -25,12 +25,12 @@ function CategoriesPage() {
     );
   }
   return (
-    <div className="p-5 ">
+    <div className="p-5 h-full w-full">
       <h1 className="text-2xl font-bold mb-2 ">Categories Page</h1>
 
-      <div className="h-145 overflow-auto">
+      <div className="h-full w-full overflow-auto">
         <Table
-          style={{ width: "82vw", textAlign: "center", margin: "auto" }}
+          style={{ width: "100%", textAlign: "center", margin: "auto" }}
           bordered
           columns={[
             {
