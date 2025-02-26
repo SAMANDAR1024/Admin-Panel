@@ -1,4 +1,3 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { message, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -31,7 +30,12 @@ function ProductsPage() {
 
       <div className="h-[75vh] w-full overflow-auto">
         <Table
-          style={{ width:"100%" ,height:"75vh", textAlign: "center", margin: "auto" }}
+          style={{
+            width: "100%",
+            height: "75vh",
+            textAlign: "center",
+            margin: "auto",
+          }}
           bordered
           columns={[
             {

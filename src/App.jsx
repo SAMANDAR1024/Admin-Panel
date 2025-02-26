@@ -6,7 +6,7 @@ import LoginPage from "./Pages/LoginPage";
 import useAuthStore from "./store/my-store";
 
 function App() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const authState = useAuthStore();
 
   return (

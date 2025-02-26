@@ -1,7 +1,9 @@
 import {
   AppstoreAddOutlined,
+  BankOutlined,
   HomeOutlined,
   MailOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import React from "react";
@@ -28,7 +30,7 @@ function Sidebar({ collapsed }) {
         },
         {
           key: "/products",
-          label: "Mahsulotlar",
+          label: "Products",
           icon: <AppstoreAddOutlined />,
           onClick: () => {
             navigate("/products");
@@ -36,8 +38,18 @@ function Sidebar({ collapsed }) {
         },
         {
           key: "/categories",
-          label: <Link to="/categories"> Kategoriyalar</Link>,
+          label: <Link to="/categories"> Categories</Link>,
           icon: <MailOutlined />,
+        },
+        {
+          key: "/rents",
+          label: <Link to="/rents"> Rents</Link>,
+          icon: <BankOutlined />,
+        },
+        {
+          key: "/users",
+          label: <Link to="/users"> Users</Link>,
+          icon: <UserOutlined />,
         },
       ]}
     />
