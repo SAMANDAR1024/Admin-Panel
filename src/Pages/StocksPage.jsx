@@ -2,18 +2,19 @@ import { message, Switch, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/my-store";
+import { CheckCircleOutlined } from "@ant-design/icons";
 
-function RentsPage() {
-  const [rents, setRents] = useState([]);
+function StocksPage() {
+  const [stocks, setStocks] = useState([]);
   const state = useAuthStore();
   const [loading, setLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     axios
-      .get("https://library.softly.uz/api/rents", {
+      .get("https://library.softly.uz/api/stocks", {
         params: {
           size: pageSize,
           page: currentPage,
@@ -24,7 +25,7 @@ function RentsPage() {
       })
       .then((res) => {
         // console.log(res.data.items);
-        setRents(res.data);
+        setStocks(res.data);
       })
       .catch((e) => {
         console.error(e);
@@ -34,19 +35,19 @@ function RentsPage() {
         setLoading(false);
       });
   }, [currentPage]);
-  
-  if (!rents) {
+
+  if (!stocks) {
     return (
       <div className=" absolute left-[50%] top-[50%]  inset-0">
         <div className="w-16 h-16 border-4 border-t-transparent border-gray-900 rounded-full animate-spin"></div>
       </div>
     );
   }
-  console.log(rents);
-  
+  console.log(stocks);
+
   return (
     <div className="p-5 w-full">
-      <h1 className="text-2xl font-bold mb-2 ">Rents Page</h1>
+      <h1 className="text-2xl font-bold mb-2 ">Kitoblarim</h1>
 
       <div className="h-[75vh] w-full overflow-auto">
         <Table
@@ -65,82 +66,64 @@ function RentsPage() {
               title: "ID",
               dataIndex: "id",
             },
+            // book?.name || "Topilmadi"
             {
-              key: "customId",
-              title: "KvID",
-              dataIndex: "customId",
-            },
-            {
-              key: "leasedAt",
-              title: "Berildi",
-              dataIndex: "leasedAt",
-              render: (value) => {
-                return new Date(value).toLocaleString("ru", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                  minute: "2-digit",
-                  hour: "2-digit",
-                });
-              },
-            },
-            {
-              key: "returningDate",
-              title: "Qaytadi",
-              dataIndex: "returningDate",
-              render: (value) => {
-                return new Date(value).toLocaleString("ru", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                });
-              },
-            },
-            {
-              key: "returnedAt",
-              title: "Qoldi / Jami",
-              dataIndex: "returnedAt",
-
-              render: (value) => {
-                if (!value) {
-                  return "-";
+              key: "book",
+              title: "Kitob",
+              dataIndex: "book",
+              render: (book, item) => {
+                if (!book) {
+                  return "Topilmadi";
                 }
-                return new Date(value).toLocaleString("ru", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                  minute: "2-digit",
-                  hour: "2-digit",
-                });
-              },
-            },
-            {
-              key: "returnedAt",
-              title: "Qaytgan",
-              dataIndex: "returnedAt",
-              render: (value) => {
-                return <Switch checked={value ? true : false} />;
-              },
-            },
-            {
-              key: "user",
-              title: "Kitobxon",
-              dataIndex: "user",
-              render: (item) => {
                 return (
                   <div>
-                    <span className="font-bold"> {item.id}.</span>
-                    {item.firstName}
+                    <span>{item.bookId}</span>. {book.name || "Nomsiz"}
                   </div>
                 );
               },
             },
+            {
+                key: "busy",
+                title: "Bandlik",
+                dataIndex: "busy",
+                render: (value) => {
+                    return <CheckCircleOutlined checked={value ? true : false} />;
+                  },
+              },
+            {
+              key: "createdAt",
+              title: "Yasalgan",
+              dataIndex: "createdAt",
+              render: (value) => {
+                return new Date(value).toLocaleString("ru", {
+                  month: "2-digit",
+                  day: "2-digit",
+                  year: "2-digit",
+                  minute: "2-digit",
+                  hour: "2-digit",
+                });
+              },
+            },
+            {
+              key: "updatedAt",
+              title: "Yangilangan",
+              dataIndex: "updatedAt",
+              render: (value) => {
+                return new Date(value).toLocaleString("ru", {
+                  month: "2-digit",
+                  day: "2-digit",
+                  year: "2-digit",
+                  minute: "2-digit",
+                  hour: "2-digit",
+                });
+              },
+            },
           ]}
-          dataSource={rents.items}
+          dataSource={stocks?.items ? stocks.items : []}
           pagination={{
             pageSize: pageSize,
             current: currentPage,
-            total: rents.totalCount,
+            total: stocks.totalCount,
           }}
           onChange={(pagination) => {
             setCurrentPage(pagination.current);
@@ -151,4 +134,4 @@ function RentsPage() {
   );
 }
 
-export default RentsPage;
+export default StocksPage;

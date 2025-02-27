@@ -1,6 +1,7 @@
 import {
   AppstoreAddOutlined,
   BankOutlined,
+  BookOutlined,
   HomeOutlined,
   MailOutlined,
   UserOutlined,
@@ -50,6 +51,10 @@ function Sidebar({ collapsed }) {
           key: "/users",
           label: <Link to="/users"> Users</Link>,
           icon: <UserOutlined />,
+        }, {
+          key: "/books",
+          label: <Link to="/books"> Books</Link>,
+          icon: <BookOutlined />,
         },
       ]}
     />

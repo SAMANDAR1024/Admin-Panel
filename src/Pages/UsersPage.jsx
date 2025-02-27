@@ -3,38 +3,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/my-store";
 import DravelAndButton from "./Drawel/DravelAndButton";
+import EditDrawer from "./Drawel/EditDrawer";
 
 function UsersPage() {
   const state = useAuthStore();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [user, setUser] = useState();
+  const pageSize = 10;
   const fetchUsers = () => {
+    setLoading(true);
     axios
       .get("https://library.softly.uz/api/users", {
         params: {
-          size: 20,
-          page: 1,
+          size: pageSize,
+          page: currentPage,
         },
         headers: {
           Authorization: `Bearer ${state.token}`,
         },
       })
       .then((res) => {
-        console.log(res.data.items);
-        setUsers(res.data.items);
+        // console.log(res.data.items);
+        setUsers(res.data);
       })
       .catch((e) => {
         console.error(e);
         message.error("error");
-      }).finally(()=>{
-        setLoading(false)
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [currentPage]);
 
   if (!users) {
     return (
@@ -47,10 +53,12 @@ function UsersPage() {
     <div className="p-5 w-full">
       <div className="flex mb-5 justify-between items-center ">
         <h1 className="text-2xl font-bold  ">KitobXonlar</h1>
-        <DravelAndButton onRefresh= {fetchUsers} />
+        <DravelAndButton onRefresh={fetchUsers} />
       </div>
-      <div className="h-[75vh] w-full overflow-auto">
+      <div className="h-[70vh] w-full overflow-auto">
+        <EditDrawer user={user} setUser={setUser} onRefresh={fetchUsers} />
         <Table
+          rowKey="id"
           style={{
             width: "100%",
             height: "75vh",
@@ -63,19 +71,77 @@ function UsersPage() {
               key: "id",
               title: "ID",
               dataIndex: "id",
+              render: (id, item) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setUser(item);
+                    }}
+                  >
+                    {id}
+                  </div>
+                );
+              },
             },
             {
               key: "firstName",
-              title: "First Name",
+              title: "Ism",
               dataIndex: "firstName",
+              render: (id, item) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setUser(item);
+                    }}
+                  >
+                    {id}
+                  </div>
+                );
+              },
             },
             {
               key: "lastName",
-              title: "Last Name",
+              title: "Familiya",
               dataIndex: "lastName",
+              render: (id, item) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setUser(item);
+                    }}
+                  >
+                    {id}
+                  </div>
+                );
+              },
             },
+            {
+              key: "phone",
+              title: "Telefon",
+              dataIndex: "phone",
+              render: (id, item) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setUser(item);
+                    }}
+                  >
+                    {id}
+                  </div>
+                );
+              },
+            },
+
           ]}
-          dataSource={users}
+          dataSource={users.items || []}
+          pagination={{
+            pageSize: pageSize,
+            current: currentPage,
+            total: users.totalCount,
+          }}
+          onChange={(pagination) => {
+            setCurrentPage(pagination.current);
+          }}
           loading={loading}
         />
       </div>

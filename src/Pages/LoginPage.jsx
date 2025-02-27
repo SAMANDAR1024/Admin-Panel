@@ -11,13 +11,17 @@ function LoginPage() {
       <Card className="w-96">
         <h1 className="text-center text-3xl font-bold  mb-5">Admin Panel</h1>
         <Form
+        initialValues={{
+          username:"lib2",
+          password:"lib22"
+        }}
           onFinish={(values) => {
-            console.log(values);
+            // console.log(values);
             setLoading(true);
             axios
               .post("https://library.softly.uz/auth/signin", values)
               .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
 
                 useAuthStore.setState({
                   token: res.data.token,

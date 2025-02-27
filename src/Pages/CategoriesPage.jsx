@@ -8,7 +8,7 @@ function CategoriesPage() {
     axios
       .get("https://67458ca9512ddbd807f88427.mockapi.io/categories")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCategories(res.data);
       })
       .catch((e) => {
@@ -30,6 +30,7 @@ function CategoriesPage() {
 
       <div className="h-[75vh] w-full overflow-auto">
         <Table
+        rowKey="id"
           style={{ width: "100%", height:'70vh', textAlign: "center", margin: "auto" }}
           bordered
           columns={[

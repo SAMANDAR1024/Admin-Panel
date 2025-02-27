@@ -17,7 +17,7 @@ function Navbar({ setCollapsed, collapsed }) {
       className="flex items-center gap-2 p-5
        justify-between  bg-slate-800 text-white"
     >
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-1 items-center h-4">
         {" "}
         <Button
           type="link"
@@ -47,7 +47,7 @@ function Navbar({ setCollapsed, collapsed }) {
               label: "Chiqish",
               danger:true,
               onClick: () => {
-                localStorage.clear()
+                localStorage.removeItem("auth")
                 useAuthStore.setState({
                   token: "",
                   user: null,

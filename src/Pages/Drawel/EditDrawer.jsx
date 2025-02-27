@@ -1,43 +1,41 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Drawer, Form, Input, message, Radio } from "antd";
-import React, { useState } from "react";
 import "antd/dist/reset.css";
 import axios from "axios";
+import React, { useState } from "react";
 import useAuthStore from "../../store/my-store";
 
-function DrawerAndButton({onRefresh}) {
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+function EditDrawer({onRefresh , setUser, user}) {
   const [loading, setLoading] = useState(false);
   const authState = useAuthStore();
   return (
     <>
-      <Button onClick={() => setIsOpenDrawer(true)} type="primary">
-        + Qo‘shish
-      </Button>
+      
       <Drawer
         title={
           <div className="flex items-center justify-between ">
-            <p className="text-2xl">Kitobxon Qo‘shish</p>
+            <p className="text-2xl">Kitobxon O'zgartirish</p>
             <p>
               <CloseOutlined
                 className="cursor-pointer text-lg"
-                onClick={() => setIsOpenDrawer(false)}
+                onClick={() => setUser(null)}
               />
             </p>
           </div>
         }
         closeIcon={null}
-        onClose={() => setIsOpenDrawer(false)}
-        open={isOpenDrawer}
+        onClose={() => setUser(null)}
+        open={user? true:false}
         destroyOnClose
       >
         <Form
+        initialValues={user}
           layout="vertical"
           onFinish={(values) => {
             setLoading(true);
             axios
-              .post(
-                `https://library.softly.uz/api/users`,
+              .put(
+                `https://library.softly.uz/api/users/${user.id}`,
                 { ...values, phone: values.phone.toString() },
                 {
                   headers: {
@@ -47,8 +45,8 @@ function DrawerAndButton({onRefresh}) {
               )
               .then((res) => {
                 // console.log(res.data);
-                message.success("Qo'shildi");
-                setIsOpenDrawer(false);
+                message.success("O'zgartirildi");
+                setUser(null);
                 onRefresh?.()
               })
               .catch((e) => {
@@ -109,7 +107,7 @@ function DrawerAndButton({onRefresh}) {
               type="primary"
               htmlType="submit"
             >
-              {loading ? "Yuborilmoqda" : "Qoshish"}
+              {loading ? "Yuborilmoqda" : "O'zgartirish"}
             </Button>
           </Form.Item>
         </Form>
@@ -118,4 +116,4 @@ function DrawerAndButton({onRefresh}) {
   );
 }
 
-export default DrawerAndButton;
+export default EditDrawer;
