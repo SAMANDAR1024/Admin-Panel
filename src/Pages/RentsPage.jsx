@@ -73,7 +73,7 @@ function RentsPage() {
       <div className="h-[70vh] w-full overflow-auto">
         <EditDrawer rent={rent} setRent={setRent} onRefresh={fetchRents} />
         <Table
-            scroll={{ x: 1000, }} // Gorizontal va vertikal scroll
+            scroll={{ x: 1100, }} // Gorizontal va vertikal scroll
 
           rowKey="id"
           style={{
