@@ -3,8 +3,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   SettingOutlined,
-  ToolOutlined,
-  UserOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import { Avatar, Button, Dropdown } from "antd";
 import React from "react";
@@ -61,11 +60,6 @@ function Navbar({ setCollapsed, collapsed }) {
         <div className="flex items-center gap-2 cursor-pointer">
           <Avatar
             className="cursor-pointer "
-            // onClick={() => {
-            //   useAuthStore.setState({
-            //     token: "",
-            //   });
-            // }}
             size="large"
             icon={<UserOutlined />}
           />

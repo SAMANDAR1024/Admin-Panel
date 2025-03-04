@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import "antd/dist/reset.css";
 import axios from "axios";
 import useAuthStore from "../../store/my-store";
+import api from "../../apii/api";
 
 function DrawerAndButton({onRefresh}) {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -35,18 +36,12 @@ function DrawerAndButton({onRefresh}) {
           layout="vertical"
           onFinish={(values) => {
             setLoading(true);
-            axios
+            api
               .post(
-                `https://library.softly.uz/api/users`,
+                `/api/users`,
                 { ...values, phone: values.phone.toString() },
-                {
-                  headers: {
-                    Authorization: `Bearer ${authState.token}`,
-                  },
-                }
               )
               .then((res) => {
-                // console.log(res.data);
                 message.success("Qo'shildi");
                 setIsOpenDrawer(false);
                 onRefresh?.()

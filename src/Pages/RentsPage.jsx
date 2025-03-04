@@ -1,29 +1,43 @@
 import { message, Switch, Table } from "antd";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import api from "../apii/api";
 import useAuthStore from "../store/my-store";
+import DravelAndButtoRents from "./Drawel/DravelAndButtonRents";
+import EditDrawer from "./Drawel/EditDrawer";
 
 function RentsPage() {
-  const [rents, setRents] = useState([]);
   const state = useAuthStore();
+  const [rents, setRents] = useState([]);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [rent, setRent] = useState();
   const pageSize = 10;
-  useEffect(() => {
-    setLoading(true)
-    axios
-      .get("https://library.softly.uz/api/rents", {
+  const fetchRents = () => {
+    setLoading(true);
+    api
+      .get("/api/rents", {
         params: {
           size: pageSize,
           page: currentPage,
         },
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
       })
       .then((res) => {
-        // console.log(res.data.items);
+        const books_ids = res.data.items.map((item) => {
+          return item.stock.bookId;
+        });
+
+        api
+          .get(`/api/books`, {
+            params: {
+              id: books_ids,
+            },
+          })
+          .then((res) => {
+
+            setBooks(res.data.items);
+          });
         setRents(res.data);
       })
       .catch((e) => {
@@ -33,8 +47,12 @@ function RentsPage() {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchRents();
   }, [currentPage]);
-  
+
   if (!rents) {
     return (
       <div className=" absolute left-[50%] top-[50%]  inset-0">
@@ -42,15 +60,19 @@ function RentsPage() {
       </div>
     );
   }
-  console.log(rents);
-  
   return (
     <div className="p-5 w-full">
-      <h1 className="text-2xl font-bold mb-2 ">Rents Page</h1>
-
-      <div className="h-[75vh] w-full overflow-auto">
+      <div className="flex mb-5 justify-between items-center ">
+        <h1 className="text-2xl font-bold  ">Ijaralar</h1>
+        <DravelAndButtoRents
+          onRefresh={fetchRents}
+          isOpenDrawer={isOpenDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
+        />
+      </div>
+      <div className="h-[70vh] w-full overflow-auto">
+        <EditDrawer rent={rent} setRent={setRent} onRefresh={fetchRents} />
         <Table
-          loading={loading}
           rowKey="id"
           style={{
             width: "100%",
@@ -123,6 +145,14 @@ function RentsPage() {
               },
             },
             {
+              key: "books",
+              title: "Zaxira Kitoblar",
+              dataIndex: "stock",
+              render: (item) => {
+                return <ZaxiraKitob books={books} stock={item}/>;
+              },
+            },
+            {
               key: "user",
               title: "Kitobxon",
               dataIndex: "user",
@@ -136,7 +166,7 @@ function RentsPage() {
               },
             },
           ]}
-          dataSource={rents.items}
+          dataSource={rents.items || []}
           pagination={{
             pageSize: pageSize,
             current: currentPage,
@@ -145,10 +175,22 @@ function RentsPage() {
           onChange={(pagination) => {
             setCurrentPage(pagination.current);
           }}
+          loading={loading}
         />
       </div>
     </div>
   );
+}
+
+function ZaxiraKitob({books, stock}) {
+  const book = books?.find((item)=>{
+    return item.id=== stock.bookId
+  })
+  return(
+    <div>
+      {stock.id}/{stock.bookId}   {book?.name}
+    </div>
+  )
 }
 
 export default RentsPage;

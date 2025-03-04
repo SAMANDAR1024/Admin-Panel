@@ -8,7 +8,6 @@ function ProductsPage() {
     axios
       .get("https://67458ca9512ddbd807f88427.mockapi.io/products")
       .then((res) => {
-        // console.log(res.data);
         setProducts(res.data);
       })
       .catch((e) => {

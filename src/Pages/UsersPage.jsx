@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import useAuthStore from "../store/my-store";
 import DravelAndButton from "./Drawel/DravelAndButton";
 import EditDrawer from "./Drawel/EditDrawer";
+import api from "../apii/api";
 
 function UsersPage() {
   const state = useAuthStore();
@@ -15,18 +16,15 @@ function UsersPage() {
   const pageSize = 10;
   const fetchUsers = () => {
     setLoading(true);
-    axios
-      .get("https://library.softly.uz/api/users", {
+    api
+      .get("/api/users", {
         params: {
           size: pageSize,
           page: currentPage,
         },
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
+     
       })
       .then((res) => {
-        // console.log(res.data.items);
         setUsers(res.data);
       })
       .catch((e) => {
@@ -131,7 +129,6 @@ function UsersPage() {
                 );
               },
             },
-
           ]}
           dataSource={users.items || []}
           pagination={{

@@ -1,28 +1,27 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
 import { message, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../apii/api";
 import useAuthStore from "../store/my-store";
 
-function StocksPage() {
-  const [stocks, setStocks] = useState([]);
+function BooksPage() {
+  const [books, setBooks] = useState([]);
   const state = useAuthStore();
   const [loading, setLoading] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   useEffect(() => {
     setLoading(true);
     api
-      .get("/api/stocks", {
+      .get("/api/books", {
         params: {
           size: pageSize,
           page: currentPage,
         },
-      
+    
       })
       .then((res) => {
-        setStocks(res.data);
+        console.log(res.data);
+        setBooks(res.data);
       })
       .catch((e) => {
         console.error(e);
@@ -33,18 +32,18 @@ function StocksPage() {
       });
   }, [currentPage]);
 
-  if (!stocks) {
+  if (!books) {
     return (
       <div className=" absolute left-[50%] top-[50%]  inset-0">
         <div className="w-16 h-16 border-4 border-t-transparent border-gray-900 rounded-full animate-spin"></div>
       </div>
     );
   }
-  console.log(stocks);
+  console.log(books);
 
   return (
     <div className="p-5 w-full">
-      <h1 className="text-2xl font-bold mb-2 ">Kitoblarim</h1>
+      <h1 className="text-2xl font-bold mb-2 ">Kitoblar</h1>
 
       <div className="h-[75vh] w-full overflow-auto">
         <Table
@@ -64,28 +63,16 @@ function StocksPage() {
               dataIndex: "id",
             },
             {
-              key: "book",
+              key: "name",
               title: "Kitob",
-              dataIndex: "book",
-              render: (book, item) => {
-                if (!book) {
-                  return "Topilmadi";
-                }
-                return (
-                  <div>
-                    <span>{item.bookId}</span>. {book.name || "Nomsiz"}
-                  </div>
-                );
-              },
+              dataIndex: "name",
             },
             {
-                key: "busy",
-                title: "Bandlik",
-                dataIndex: "busy",
-                render: (value) => {
-                    return <CheckCircleOutlined checked={value ? true : false} />;
-                  },
-              },
+              key: "language",
+              title: "Til",
+              dataIndex: "language",
+            },
+
             {
               key: "createdAt",
               title: "Yasalgan",
@@ -115,11 +102,11 @@ function StocksPage() {
               },
             },
           ]}
-          dataSource={stocks?.items ? stocks.items : []}
+          dataSource={books?.items ? books.items : []}
           pagination={{
             pageSize: pageSize,
             current: currentPage,
-            total: stocks.totalCount,
+            total: books.totalCount,
           }}
           onChange={(pagination) => {
             setCurrentPage(pagination.current);
@@ -130,4 +117,4 @@ function StocksPage() {
   );
 }
 
-export default StocksPage;
+export default BooksPage;

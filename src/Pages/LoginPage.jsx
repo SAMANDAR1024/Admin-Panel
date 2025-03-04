@@ -1,7 +1,7 @@
 import { LoadingOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message } from "antd";
-import axios from "axios";
 import React, { useState } from "react";
+import api from "../apii/api";
 import useAuthStore from "../store/my-store";
 
 function LoginPage() {
@@ -11,30 +11,28 @@ function LoginPage() {
       <Card className="w-96">
         <h1 className="text-center text-3xl font-bold  mb-5">Admin Panel</h1>
         <Form
-        initialValues={{
-          username:"lib2",
-          password:"lib22"
-        }}
+          initialValues={{
+            username: "lib2",
+            password: "lib22",
+          }}
           onFinish={(values) => {
-            // console.log(values);
             setLoading(true);
-            axios
-              .post("https://library.softly.uz/auth/signin", values)
+            api
+              .post("/auth/signin", values)
               .then((res) => {
-                // console.log(res.data);
-
+                api.defaults.headers.Authorization = `Bearer ${res.data.token}`;
                 useAuthStore.setState({
                   token: res.data.token,
                   user: res.data.user,
                 });
                 setLoading(false);
-                localStorage.setItem("auth", JSON.stringify(res.data))
+                localStorage.setItem("auth", JSON.stringify(res.data));
                 message.success("Muvaffaqqiyatli Bajarildi...");
               })
               .catch((e) => {
                 console.error(e);
                 setLoading(false);
-             
+
                 message.error("Xatolik");
               });
           }}

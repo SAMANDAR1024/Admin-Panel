@@ -6,6 +6,7 @@ import ProductsPage from "../Pages/ProductsPage";
 import RentsPage from "../Pages/RentsPage";
 import StocksPage from "../Pages/StocksPage";
 import UsersPage from "../Pages/UsersPage";
+import BooksPage from "../Pages/BooksPage";
 
 function MainSection() {
   return (
@@ -15,7 +16,8 @@ function MainSection() {
       <Route path="/categories" element={<CategoriesPage />} />
       <Route path="/rents" element={<RentsPage />} />
       <Route path="/users" element={<UsersPage />} />
-      <Route path="/books" element={<StocksPage />} />
+      <Route path="/stock" element={<StocksPage />} />
+      <Route path="/books" element={<BooksPage />} />
     </Routes>
   );
 }

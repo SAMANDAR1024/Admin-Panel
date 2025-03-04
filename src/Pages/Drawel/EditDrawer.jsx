@@ -37,11 +37,7 @@ function EditDrawer({onRefresh , setUser, user}) {
               .put(
                 `https://library.softly.uz/api/users/${user.id}`,
                 { ...values, phone: values.phone.toString() },
-                {
-                  headers: {
-                    Authorization: `Bearer ${authState.token}`,
-                  },
-                }
+               
               )
               .then((res) => {
                 // console.log(res.data);

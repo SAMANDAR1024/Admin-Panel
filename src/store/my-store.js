@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import api from "../apii/api";
 
 const useAuthStore = create(() => {
   const ls_string = localStorage.getItem("auth");
@@ -9,12 +10,12 @@ const useAuthStore = create(() => {
       user: null,
     };
   }
-   const  ls= JSON.parse(ls_string)
-
-   return{
+  const ls = JSON.parse(ls_string);
+  api.defaults.headers.Authorization = `Bearer ${ls.token}`;
+  return {
     token: ls.token,
-    user: ls.user
-   }
+    user: ls.user,
+  };
 });
 
 export default useAuthStore;

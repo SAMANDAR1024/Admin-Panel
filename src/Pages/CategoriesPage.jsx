@@ -8,11 +8,9 @@ function CategoriesPage() {
     axios
       .get("https://67458ca9512ddbd807f88427.mockapi.io/categories")
       .then((res) => {
-        // console.log(res.data);
         setCategories(res.data);
       })
       .catch((e) => {
-        console.error(e);
         message.error("Xatolik");
       });
   }, []);
